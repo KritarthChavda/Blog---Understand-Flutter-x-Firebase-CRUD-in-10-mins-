@@ -20,7 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(docId == null ? 'Add Note' : 'Update Note'),
         content: TextField(
           controller: textController,
-          decoration: InputDecoration(labelText: 'Enter your note'),
+          decoration: InputDecoration(
+            labelText: 'Enter your note',
+            border: OutlineInputBorder(),
+          ),
         ),
         actions: [
           TextButton(
@@ -53,12 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notes"),
-        centerTitle: true,
-      ),
+          title: Text(
+            "Your Notes",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          centerTitle: true,
+          backgroundColor: Colors.transparent),
       floatingActionButton: FloatingActionButton(
         onPressed: () => openBox(),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: Colors.blue,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: firestoreService.getNotesStream(),
@@ -77,8 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 String noteText = data['note'] ?? "";
 
                 return Card(
-                  elevation: 3,
-                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  elevation: 5,
+                  margin: EdgeInsets.all(16),
                   child: ListTile(
                     title: Text(noteText),
                     trailing: Row(
@@ -86,11 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         IconButton(
                           onPressed: () => firestoreService.deleteNote(docId),
-                          icon: Icon(Icons.delete),
+                          icon: Icon(Icons.delete, color: Colors.red),
                         ),
                         IconButton(
                           onPressed: () => openBox(docId: docId),
-                          icon: Icon(Icons.edit),
+                          icon: Icon(Icons.edit, color: Colors.blue),
                         ),
                       ],
                     ),
